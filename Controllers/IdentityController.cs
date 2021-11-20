@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using LabManAPI.Services;
 using LabManAPI.Contracts;
 using LabManAPI.Contracts.Requests;
-using LabManAPI.Contracts.Responses;
+using LabManAPI.Contracts.Responses;   // POPRAWIC ITEMY -> DODAC REZERWACJE (serwisy,modele,kontrolery) -> migracja  
 
 namespace LabManAPI.Controllers
 {
-    public class IdentityController: Controller
+    public class IdentityController : Controller
     {
         private readonly IIdentityService _identityService;
 
@@ -26,20 +26,20 @@ namespace LabManAPI.Controllers
             {
                 return BadRequest(new AuthFailResponse
                 {
-                    Errors = ModelState.Values.SelectMany(x => 
+                    Errors = ModelState.Values.SelectMany(x =>
                     x.Errors.Select(xx => xx.ErrorMessage))
                 });
             }
 
             var authResponse = await _identityService.RegisterAsync(request.Email, request.Password);
-            if(!authResponse.Succes)
+            if (!authResponse.Succes)
             {
                 return BadRequest(new AuthFailResponse
                 {
                     Errors = authResponse.Errors
                 });
             }
-            return Ok(new AuthSuccesResponse 
+            return Ok(new AuthSuccesResponse
             {
                 Token = authResponse.Token,
             });
