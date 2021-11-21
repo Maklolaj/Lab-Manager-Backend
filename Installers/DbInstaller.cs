@@ -25,6 +25,8 @@ namespace LabManAPI.Installers
             services.AddControllersWithViews();
 
             services.AddScoped<IItemService, ItemService>();
+
+            services.AddScoped<IReservationService, ReservationService>();
         }
     }
 }

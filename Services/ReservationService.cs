@@ -7,12 +7,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LabManAPI.Services
 {
-    public class RservationService : IReservationService
+    public class ReservationService : IReservationService
     {
 
         private readonly ApplicationDbContext _dataContext;
 
-        public RservationService(ApplicationDbContext dbContext)
+        public ReservationService(ApplicationDbContext dbContext)
         {
             _dataContext = dbContext;
         }

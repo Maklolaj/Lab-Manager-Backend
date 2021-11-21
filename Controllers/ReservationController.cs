@@ -5,6 +5,8 @@ using LabManAPI.Contracts;
 using LabManAPI.Services;
 using LabManAPI.Contracts.Requests;
 using LabManAPI.Contracts.Responses;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 
 namespace LabManAPI.Controllers
 {
@@ -13,10 +15,13 @@ namespace LabManAPI.Controllers
         private readonly IReservationService _reservationService;
         private readonly IItemService _itemService;
 
-        public ReservationController(IReservationService reservationService, IItemService itemService)
+        private readonly IIdentityService _identityService;
+
+        public ReservationController(IReservationService reservationService, IItemService itemService, IIdentityService identityService)
         {
             _reservationService = reservationService;
             _itemService = itemService;
+            _identityService = identityService;
         }
 
         [HttpGet(ApiRoutes.Reservation.GetAll)]
@@ -25,16 +30,30 @@ namespace LabManAPI.Controllers
             return Ok(await _reservationService.GetReservationsAsync());
         }
 
-        [HttpGet(ApiRoutes.Reservation.Create)]
+        [HttpPost(ApiRoutes.Reservation.Create)]
         public async Task<IActionResult> Create([FromBody] CreateReservationRequest request)
         {
             var item = await _itemService.GetItemByIdAsync(request.ItemId);
+            if (item == null)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Item with id={request.ItemId} does not exist");
+            }
+
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+
+            var currentUser = await _identityService.GetIdentityUserFromJWT(accessToken);
+
+            if (currentUser == null)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "User does not exist");
+            }
 
             var reservation = new Reservation
             {
                 StartDate = request.StartDate,
                 EndDate = request.EndDate,
-                Item = item
+                Item = item,
+                User = currentUser,
             };
 
             await _reservationService.CreateReservationAsync(reservation);
@@ -51,6 +70,34 @@ namespace LabManAPI.Controllers
 
             return Created(locationUrl, response);
         }
+
+
+        [HttpDelete(ApiRoutes.Reservation.Delete)]
+        public async Task<IActionResult> Delete([FromRoute] int reservationId)
+        {
+            var deleted = await _reservationService.DeleteReservationAsync(reservationId);
+
+            if (deleted)
+                return NoContent();
+
+            return NotFound();
+        }
+
+        [HttpPut(ApiRoutes.Reservation.Update)]
+        public async Task<IActionResult> Update([FromBody] UpdateReservationRequest request, [FromRoute] int reservationId)
+        {
+            var reservation = await _reservationService.GetRservationByIdAsync(reservationId);
+
+            reservation.StartDate = request.StartDate;
+            reservation.EndDate = request.EndDate;
+
+            if (await _reservationService.UpdateReservationAsync(reservation))
+                return Ok(reservation);
+
+            return NotFound();
+
+        }
+
 
     }
 }

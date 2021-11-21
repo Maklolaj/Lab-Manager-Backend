@@ -90,6 +90,20 @@ namespace LabManAPI.Services
 
         }
 
+        public async Task<IdentityUser> GetIdentityUserFromJWT(string accessToken)
+        {
+            //var accessToken = await HttpContext.GetTokenAsync("access_token");
+
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(accessToken);
+
+            var userId = jwtSecurityToken.Claims.Where(c => c.Type == "id").Select(value => value.Value).SingleOrDefault();
+
+            var user = await _userManager.FindByIdAsync(userId);
+
+            return user;
+        }
+
 
         private AuthenticationResult GenerateAuthenticationResultForUserAsync(IdentityUser user)
         {
