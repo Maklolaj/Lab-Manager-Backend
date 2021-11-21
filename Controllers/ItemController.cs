@@ -18,7 +18,7 @@ namespace LabManAPI.Controllers
             _itemService = itemService;
         }
 
-       [HttpGet(ApiRoutes.Item.GetAll)]
+        [HttpGet(ApiRoutes.Item.GetAll)]
         public async Task<IActionResult> GetAll()
         {
             return Ok(await _itemService.GetItemsAsync());
@@ -27,9 +27,14 @@ namespace LabManAPI.Controllers
         [HttpPost(ApiRoutes.Item.Create)]
         public async Task<IActionResult> Create([FromBody] CreateItemRequest itemRequest)
         {
-            var item = new Item {
-                name = itemRequest.name,
-                describiton = itemRequest.describiton
+            var item = new Item
+            {
+                Name = itemRequest.Name,
+                Manufacturer = itemRequest.Manufacturer,
+                ProductionDate = itemRequest.ProductionDate,
+                Describiton = itemRequest.Describiton,
+                IsDamaged = false,
+                IsDeleted = false,
             };
 
             await _itemService.CreateItemAsync(item);
@@ -37,17 +42,17 @@ namespace LabManAPI.Controllers
             var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
             var locationUrl = baseUrl + "/" + ApiRoutes.Item.Get.Replace("{itemId}", item.Id.ToString());
 
-            var response = new ItemResponse 
+            var response = new ItemResponse
             {
                 Id = item.Id,
-                name = item.name,
+                name = item.Name,
             };
 
             return Created(locationUrl, response);
         }
 
-         [HttpDelete(ApiRoutes.Item.Delete)]
-        public async Task<IActionResult> Delete([FromRoute]int itemId)
+        [HttpDelete(ApiRoutes.Item.Delete)]
+        public async Task<IActionResult> Delete([FromRoute] int itemId)
         {
             var deleted = await _itemService.DeleteItemAsync(itemId);
 
@@ -64,10 +69,13 @@ namespace LabManAPI.Controllers
 
             var item = await _itemService.GetItemByIdAsync(itemId);
 
-            item.name = request.name;
-            item.describiton = request.describiton;
-            item.isDamaged = request.isDamaged;
-            
+            item.Name = request.Name;
+            item.Manufacturer = request.Manufacturer;
+            item.ProductionDate = request.ProductionDate;
+            item.Describiton = request.Describiton;
+            item.IsDamaged = request.IsDamaged;
+            item.IsDeleted = request.IsDeleted;
+
             if (await _itemService.UpdateItemAsync(item))
                 return Ok(item);
 

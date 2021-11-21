@@ -23,7 +23,7 @@ namespace LabManAPI.Services
         private readonly ApplicationDbContext _dataContext;
 
         public IdentityService(UserManager<IdentityUser> userManager, JwtSettings jwtSettigns
-            ,TokenValidationParameters tokenValidationParameters, ApplicationDbContext dataContext)
+            , TokenValidationParameters tokenValidationParameters, ApplicationDbContext dataContext)
         {
             _userManager = userManager;
             _jwtSettigns = jwtSettigns;
@@ -35,6 +35,7 @@ namespace LabManAPI.Services
         {
 
             var user = await _userManager.FindByEmailAsync(email);
+            var id = await _userManager.GetUserIdAsync(user);
 
             if (user == null)
             {
@@ -91,7 +92,7 @@ namespace LabManAPI.Services
 
         }
 
-    
+
         private AuthenticationResult GenerateAuthenticationResultForUserAsync(IdentityUser user)
         {
             ASCIIEncoding ascii = new ASCIIEncoding();
@@ -113,7 +114,7 @@ namespace LabManAPI.Services
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-           
+
             return new AuthenticationResult
             {
                 Succes = true,
