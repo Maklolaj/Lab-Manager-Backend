@@ -45,7 +45,7 @@ namespace LabManAPI.Controllers
             var response = new ItemResponse
             {
                 Id = item.Id,
-                name = item.Name,
+                Name = item.Name,
             };
 
             return Created(locationUrl, response);

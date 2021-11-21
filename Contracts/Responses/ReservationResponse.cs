@@ -5,9 +5,13 @@ using System.Threading.Tasks;
 
 namespace LabManAPI.Contracts.Responses
 {
-    public class ItemResponse
+    public class ReservationResponse
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; }
+
     }
 }
