@@ -17,12 +17,25 @@ namespace LabManAPI.Contracts
             public const string Delete = Base + "/" + "items/{itemId}";
         }
 
-         public static class Identity
+        public static class Identity
         {
             public const string Login = Base + "/identity/login";
 
             public const string Register = Base + "/identity/register";
 
+        }
+
+        public static class Reservation
+        {
+            public const string GetAll = Base + "/" + "reservations";
+
+            public const string Create = Base + "/" + "reservations";
+
+            public const string Get = Base + "/" + "reservations/{reservationId}";
+
+            public const string Update = Base + "/" + "reservations/{reservationId}";
+
+            public const string Delete = Base + "/" + "reservations/{reservationId}";
         }
     }
 }
