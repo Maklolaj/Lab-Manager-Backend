@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +5,7 @@ using LabManAPI.Services;
 using LabManAPI.Contracts;
 using LabManAPI.Contracts.Requests;
 using LabManAPI.Contracts.Responses;
+
 
 namespace LabManAPI.Controllers
 {
@@ -17,6 +16,7 @@ namespace LabManAPI.Controllers
         public IdentityController(IIdentityService identityService)
         {
             _identityService = identityService;
+
         }
 
         [HttpPost(ApiRoutes.Identity.Register)]

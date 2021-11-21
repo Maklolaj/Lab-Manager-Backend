@@ -8,7 +8,7 @@ namespace LabManAPI.Contracts
         {
             public const string GetAll = Base + "/" + "items";
 
-            public const string Create = Base + "/" + "items";
+            public const string Create = Base + "/" + "item";
 
             public const string Get = Base + "/" + "items/{itemId}";
 
@@ -29,7 +29,7 @@ namespace LabManAPI.Contracts
         {
             public const string GetAll = Base + "/" + "reservations";
 
-            public const string Create = Base + "/" + "reservations";
+            public const string Create = Base + "/" + "reservation";
 
             public const string Get = Base + "/" + "reservations/{reservationId}";
 

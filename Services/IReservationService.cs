@@ -1,7 +1,5 @@
 using LabManAPI.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace LabManAPI.Services
@@ -17,5 +15,6 @@ namespace LabManAPI.Services
         Task<bool> DeleteReservationAsync(int reservationId);
 
         Task<bool> CreateReservationAsync(Reservation reservation);
+
     }
 }
