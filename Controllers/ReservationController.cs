@@ -100,13 +100,13 @@ namespace LabManAPI.Controllers
 
         }
 
-        [HttpGet(ApiRoutes.Reservation.GetFromDate)]
-        public async Task<IActionResult> GetFromDate()
+        [HttpPost(ApiRoutes.Reservation.GetFromDate)]
+        public async Task<IActionResult> GetFromDate([FromBody] ReservationFromDateRequest dateRequest)
         {
-            string start = "2021-11-20 08:08 AM";
-            string end = "2021-11-20 22:08 PM";
-            DateTime startDate = DateTime.ParseExact(start, "yyyy-MM-dd HH:mm tt", System.Globalization.CultureInfo.InvariantCulture);
-            DateTime endDate = DateTime.ParseExact(end, "yyyy-MM-dd HH:mm tt", System.Globalization.CultureInfo.InvariantCulture);
+            //string start = "2021-11-20 08:08 AM";
+            //string end = "2021-11-20 22:08 PM";
+            DateTime startDate = DateTime.ParseExact(dateRequest.StartDate, "yyyy-MM-dd HH:mm tt", System.Globalization.CultureInfo.InvariantCulture);
+            DateTime endDate = DateTime.ParseExact(dateRequest.EndDate, "yyyy-MM-dd HH:mm tt", System.Globalization.CultureInfo.InvariantCulture);
 
             var reservations = await _reservationService.GetReservationsWithCorrespondingDate(startDate, endDate);
 
