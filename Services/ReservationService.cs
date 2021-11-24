@@ -56,8 +56,6 @@ namespace LabManAPI.Services
         {
             var reservations = new List<ReservationsFromDateResponse>();
 
-            //DateTime oDate = DateTime.ParseExact(iDate, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
-
             var resetaionsThatDay = await _dataContext.Reservations
             .Where(x => x.StartDate > startRange && x.EndDate < endRange).ToListAsync();
 
@@ -81,10 +79,6 @@ namespace LabManAPI.Services
                     Reservations = resetaionsDayAfter,
                 }
             });
-
-
-
-            Console.WriteLine("test");
 
             return reservations;
         }
