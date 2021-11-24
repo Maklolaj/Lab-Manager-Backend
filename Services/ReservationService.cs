@@ -3,7 +3,10 @@ using LabManAPI.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-
+using LabManAPI.Contracts.Responses;
+using System.Linq;
+using LabManAPI.Migrations;
+using System;
 
 namespace LabManAPI.Services
 {
@@ -47,6 +50,43 @@ namespace LabManAPI.Services
             await _dataContext.Reservations.AddAsync(reservation);
             var created = await _dataContext.SaveChangesAsync();
             return created > 0;
+        }
+
+        public async Task<List<ReservationsFromDateResponse>> GetReservationsWithCorrespondingDate(DateTime startRange, DateTime endRange)
+        {
+            var reservations = new List<ReservationsFromDateResponse>();
+
+            //DateTime oDate = DateTime.ParseExact(iDate, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+
+            var resetaionsThatDay = await _dataContext.Reservations
+            .Where(x => x.StartDate > startRange && x.EndDate < endRange).ToListAsync();
+
+            var resetaionsDayBefore = await _dataContext.Reservations
+            .Where(x => x.StartDate > startRange.AddDays(-1) && x.EndDate < endRange.AddDays(-1)).ToListAsync();
+
+            var resetaionsDayAfter = await _dataContext.Reservations
+           .Where(x => x.StartDate > startRange.AddDays(1) && x.EndDate < endRange.AddDays(1)).ToListAsync();
+
+            reservations.AddRange(new List<ReservationsFromDateResponse>
+            {   new ReservationsFromDateResponse{
+                    Day = $"{startRange.AddDays(-1).Day}-{startRange.Month}-{startRange.Year}",
+                    Reservations = resetaionsDayBefore,
+                },
+                new ReservationsFromDateResponse{
+                    Day = $"{startRange.Day}-{startRange.Month}-{startRange.Year}",
+                    Reservations = resetaionsThatDay,
+                },
+                new ReservationsFromDateResponse{
+                    Day = $"{startRange.AddDays(1).Day}-{startRange.Month}-{startRange.Year}",
+                    Reservations = resetaionsDayAfter,
+                }
+            });
+
+
+
+            Console.WriteLine("test");
+
+            return reservations;
         }
 
     }

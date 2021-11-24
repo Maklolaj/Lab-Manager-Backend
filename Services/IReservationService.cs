@@ -1,6 +1,8 @@
 using LabManAPI.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using LabManAPI.Contracts.Responses;
+using System;
 
 namespace LabManAPI.Services
 {
@@ -15,6 +17,8 @@ namespace LabManAPI.Services
         Task<bool> DeleteReservationAsync(int reservationId);
 
         Task<bool> CreateReservationAsync(Reservation reservation);
+
+        Task<List<ReservationsFromDateResponse>> GetReservationsWithCorrespondingDate(DateTime startRange, DateTime endRange);
 
     }
 }

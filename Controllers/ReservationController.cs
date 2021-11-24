@@ -7,6 +7,8 @@ using LabManAPI.Contracts.Requests;
 using LabManAPI.Contracts.Responses;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
+using LabManAPI.Migrations;
+using System;
 
 namespace LabManAPI.Controllers
 {
@@ -96,6 +98,19 @@ namespace LabManAPI.Controllers
 
             return NotFound();
 
+        }
+
+        [HttpGet(ApiRoutes.Reservation.GetFromDate)]
+        public async Task<IActionResult> GetFromDate()
+        {
+            string start = "2021-11-20 08:08 AM";
+            string end = "2021-11-20 22:08 PM";
+            DateTime startDate = DateTime.ParseExact(start, "yyyy-MM-dd HH:mm tt", System.Globalization.CultureInfo.InvariantCulture);
+            DateTime endDate = DateTime.ParseExact(end, "yyyy-MM-dd HH:mm tt", System.Globalization.CultureInfo.InvariantCulture);
+
+            var reservations = await _reservationService.GetReservationsWithCorrespondingDate(startDate, endDate);
+
+            return Ok(reservations);
         }
 
 

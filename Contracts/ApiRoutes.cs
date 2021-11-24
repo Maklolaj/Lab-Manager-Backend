@@ -36,6 +36,10 @@ namespace LabManAPI.Contracts
             public const string Update = Base + "/" + "reservations/{reservationId}";
 
             public const string Delete = Base + "/" + "reservations/{reservationId}";
+
+            public const string GetFromDate = Base + "/" + "reservations/from/date";
+
+            public const string GetFromUser = Base + "/" + "reservations/from/identity";
         }
     }
 }
