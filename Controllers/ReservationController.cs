@@ -104,10 +104,10 @@ namespace LabManAPI.Controllers
         public async Task<IActionResult> GetFromDate([FromBody] ReservationFromDateRequest dateRequest)
         {
             // TEST DATES 
-            //"2021-11-20 08:08 AM";
-            //"2021-11-20 22:08 PM";
-            DateTime startDate = DateTime.ParseExact(dateRequest.StartDate, "yyyy-MM-dd HH:mm tt", System.Globalization.CultureInfo.InvariantCulture);
-            DateTime endDate = DateTime.ParseExact(dateRequest.EndDate, "yyyy-MM-dd HH:mm tt", System.Globalization.CultureInfo.InvariantCulture);
+            //"2021-11-20 08:08";
+            //"2021-11-20 22:08";
+            DateTime startDate = DateTime.ParseExact(dateRequest.StartDate, "yyyy-MM-dd HH:mm", System.Globalization.CultureInfo.InvariantCulture);
+            DateTime endDate = DateTime.ParseExact(dateRequest.EndDate, "yyyy-MM-dd HH:mm", System.Globalization.CultureInfo.InvariantCulture);
 
             var reservations = await _reservationService.GetReservationsWithCorrespondingDate(startDate, endDate);
 
