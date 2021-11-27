@@ -80,7 +80,62 @@ namespace LabManAPI.Services
                 }
             });
 
+            CreateDailyRservationForItem(reservations[1].Reservations);
+
             return reservations;
+        }
+
+        public List<Reservation> CreateDailyRservationForItem(List<Reservation> resList)
+        {
+
+            var result = new List<Reservation>() { null, null, null, null, null };
+            result.AddRange(new List<Reservation>
+            {
+                new Reservation{},
+                new Reservation{},
+                new Reservation{},
+                new Reservation{},
+                new Reservation{},
+                new Reservation{},
+
+            });
+
+            foreach (Reservation value in resList)
+            {
+                switch ((value.StartDate.Hour, value.EndDate.Hour))
+                {
+                    case (8, 10):
+                        result[0] = value;
+                        break;
+
+                    case (10, 12):
+                        result[1] = value;
+                        break;
+
+                    case (12, 14):
+                        result[2] = value;
+                        break;
+
+                    case (14, 16):
+                        result[3] = value;
+                        break;
+
+                    case (16, 18):
+                        result[4] = value;
+                        break;
+
+                    case (18, 20):
+                        result[5] = value;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            Console.WriteLine(result);
+
+            return new List<Reservation>();
         }
 
     }
