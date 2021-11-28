@@ -52,9 +52,9 @@ namespace LabManAPI.Services
             return created > 0;
         }
 
-        public async Task<List<ReservationsFromDateResponse>> GetReservationsWithCorrespondingDate(DateTime startRange, DateTime endRange)
+        public async Task<List<ReservationsFromDateResponse>> GetReservationsWithCorrespondingDate(DateTime startRange, DateTime endRange, int itemId)
         {
-            var reservations = new List<ReservationsFromDateResponse>();
+            var reservations = new List<ReservationsFromDateResponse>();  // get reservation with its properites then // && x.Item.Id == itemId
 
             var resetaionsThatDay = await _dataContext.Reservations
             .Where(x => x.StartDate > startRange && x.EndDate < endRange).ToListAsync();

@@ -18,7 +18,7 @@ namespace LabManAPI.Services
 
         Task<bool> CreateReservationAsync(Reservation reservation);
 
-        Task<List<ReservationsFromDateResponse>> GetReservationsWithCorrespondingDate(DateTime startRange, DateTime endRange);
+        Task<List<ReservationsFromDateResponse>> GetReservationsWithCorrespondingDate(DateTime startRange, DateTime endRange, int itemId);
 
     }
 }

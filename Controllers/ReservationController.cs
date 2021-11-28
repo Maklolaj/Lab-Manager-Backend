@@ -109,7 +109,7 @@ namespace LabManAPI.Controllers
             DateTime startDate = DateTime.ParseExact(dateRequest.StartDate, "yyyy-MM-dd HH:mm", System.Globalization.CultureInfo.InvariantCulture);
             DateTime endDate = DateTime.ParseExact(dateRequest.EndDate, "yyyy-MM-dd HH:mm", System.Globalization.CultureInfo.InvariantCulture);
 
-            var reservations = await _reservationService.GetReservationsWithCorrespondingDate(startDate, endDate);
+            var reservations = await _reservationService.GetReservationsWithCorrespondingDate(startDate, endDate, dateRequest.ItemId);
 
             return Ok(reservations);
         }
