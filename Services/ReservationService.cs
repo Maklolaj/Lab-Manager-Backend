@@ -68,19 +68,17 @@ namespace LabManAPI.Services
             reservations.AddRange(new List<ReservationsFromDateResponse>
             {   new ReservationsFromDateResponse{
                     Day = $"{startRange.AddDays(-1).Day}-{startRange.Month}-{startRange.Year}",
-                    Reservations = resetaionsDayBefore,
+                    Reservations = CreateDailyRservationForItem(resetaionsDayBefore),
                 },
                 new ReservationsFromDateResponse{
                     Day = $"{startRange.Day}-{startRange.Month}-{startRange.Year}",
-                    Reservations = resetaionsThatDay,
+                    Reservations = CreateDailyRservationForItem(resetaionsThatDay),
                 },
                 new ReservationsFromDateResponse{
                     Day = $"{startRange.AddDays(1).Day}-{startRange.Month}-{startRange.Year}",
-                    Reservations = resetaionsDayAfter,
+                    Reservations = CreateDailyRservationForItem(resetaionsDayAfter),
                 }
             });
-
-            CreateDailyRservationForItem(reservations[1].Reservations);
 
             return reservations;
         }
@@ -88,7 +86,7 @@ namespace LabManAPI.Services
         public List<Reservation> CreateDailyRservationForItem(List<Reservation> resList)
         {
 
-            var result = new List<Reservation>() { null, null, null, null, null };
+            var result = new List<Reservation>();
             result.AddRange(new List<Reservation>
             {
                 new Reservation{},
@@ -133,9 +131,7 @@ namespace LabManAPI.Services
                 }
             }
 
-            Console.WriteLine(result);
-
-            return new List<Reservation>();
+            return result;
         }
 
     }
