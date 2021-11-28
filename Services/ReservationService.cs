@@ -67,15 +67,15 @@ namespace LabManAPI.Services
 
             reservations.AddRange(new List<ReservationsFromDateResponse>
             {   new ReservationsFromDateResponse{
-                    Day = $"{startRange.AddDays(-1).Day}-{startRange.Month}-{startRange.Year}",
+                    Day = $"{startRange.Year}-{startRange.Month}-{startRange.AddDays(-1).Day}",
                     Reservations = CreateDailyRservationForItem(resetaionsDayBefore),
                 },
                 new ReservationsFromDateResponse{
-                    Day = $"{startRange.Day}-{startRange.Month}-{startRange.Year}",
+                    Day = $"{startRange.Year}-{startRange.Month}-{startRange.Day}",
                     Reservations = CreateDailyRservationForItem(resetaionsThatDay),
                 },
                 new ReservationsFromDateResponse{
-                    Day = $"{startRange.AddDays(1).Day}-{startRange.Month}-{startRange.Year}",
+                    Day = $"{startRange.Year}-{startRange.Month}-{startRange.AddDays(1).Day}",
                     Reservations = CreateDailyRservationForItem(resetaionsDayAfter),
                 }
             });
