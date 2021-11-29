@@ -10,6 +10,8 @@ namespace LabManAPI.Services
     {
         Task<List<Reservation>> GetReservationsAsync();
 
+        Task<List<Reservation>> GetUserReservationsAsync(string userId);
+
         Task<Reservation> GetRservationByIdAsync(int reservationId);
 
         Task<bool> UpdateReservationAsync(Reservation reservationToUpdate);

@@ -114,6 +114,22 @@ namespace LabManAPI.Controllers
             return Ok(reservations);
         }
 
+        [HttpGet(ApiRoutes.Reservation.GetFromUser)]
+        public async Task<IActionResult> GetFromUser()
+        {
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+
+            var currentUser = await _identityService.GetIdentityUserFromJWT(accessToken);
+
+            if (currentUser == null)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "User does not exist");
+            }
+
+            var reservations = await _reservationService.GetUserReservationsAsync(currentUser.Id);
+
+            return Ok(reservations);
+        }
 
     }
 }
