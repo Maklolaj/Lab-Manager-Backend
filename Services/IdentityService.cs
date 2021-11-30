@@ -119,7 +119,8 @@ namespace LabManAPI.Services
                     new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                    new Claim("id", user.Id)  //Custom claim
+                    new Claim("id", user.Id), //Custom claim
+                    new Claim(JwtRegisteredClaimNames.Prn, user.PhoneNumber)  //Custom claim
                 }),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
