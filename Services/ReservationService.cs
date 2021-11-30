@@ -27,7 +27,7 @@ namespace LabManAPI.Services
 
         public async Task<List<Reservation>> GetUserReservationsAsync(string userId)
         {
-            return await _dataContext.Reservations.Where(x => x.User.Id == userId).ToListAsync();
+            return await _dataContext.Reservations.Where(x => x.User.Id == userId).Include(x => x.Item).ToListAsync();
         }
 
         public async Task<Reservation> GetRservationByIdAsync(int reservationId)
