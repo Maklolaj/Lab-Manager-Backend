@@ -11,7 +11,6 @@ namespace LabManAPI.Contracts.Requests
         public string Manufacturer { get; set; }
         public DateTime ProductionDate { get; set; }
         public string Describiton { get; set; }
-        public bool isDamaged { get; set; }
-        public bool IsDeleted { get; set; }
+
     }
 }

@@ -73,8 +73,6 @@ namespace LabManAPI.Controllers
             item.Manufacturer = request.Manufacturer;
             item.ProductionDate = request.ProductionDate;
             item.Describiton = request.Describiton;
-            item.IsDamaged = request.IsDamaged;
-            item.IsDeleted = request.IsDeleted;
 
             if (await _itemService.UpdateItemAsync(item))
                 return Ok(item);

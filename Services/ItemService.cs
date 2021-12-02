@@ -22,7 +22,7 @@ namespace LabManAPI.Services
 
         public async Task<List<Item>> GetItemsAsync()
         {
-             return await _dataContext.Items.ToListAsync();
+            return await _dataContext.Items.ToListAsync();
         }
 
         public async Task<Item> GetItemByIdAsync(int itemId)
@@ -37,11 +37,12 @@ namespace LabManAPI.Services
             return updated > 0;
         }
 
-        public async Task<bool> DeleteItemAsync(int itemId){
+        public async Task<bool> DeleteItemAsync(int itemId)
+        {
             var item = await GetItemByIdAsync(itemId);
-            _dataContext.Items.Remove(item);
-            var deleted = await _dataContext.SaveChangesAsync();
-            return deleted > 0;
+            item.IsDeleted = true;
+            await _dataContext.SaveChangesAsync();
+            return item.IsDeleted;
         }
 
         public async Task<bool> CreateItemAsync(Item item)
