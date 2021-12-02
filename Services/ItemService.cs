@@ -22,7 +22,7 @@ namespace LabManAPI.Services
 
         public async Task<List<Item>> GetItemsAsync()
         {
-            return await _dataContext.Items.ToListAsync();
+            return await _dataContext.Items.Where(x => x.IsDamaged == false && x.IsDeleted == false).ToListAsync();
         }
 
         public async Task<Item> GetItemByIdAsync(int itemId)

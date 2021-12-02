@@ -22,7 +22,7 @@ namespace LabManAPI.Services
 
         public async Task<List<Reservation>> GetReservationsAsync()
         {
-            return await _dataContext.Reservations.ToListAsync();
+            return await _dataContext.Reservations.Include(x => x.Item).ToListAsync();
         }
 
         public async Task<List<Reservation>> GetUserReservationsAsync(string userId)
