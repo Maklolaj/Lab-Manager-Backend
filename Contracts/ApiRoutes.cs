@@ -41,5 +41,23 @@ namespace LabManAPI.Contracts
 
             public const string GetFromUser = Base + "/" + "reservations/from/identity";
         }
+
+        public static class Fault
+        {
+            public const string GetAll = Base + "/" + "faults";
+
+            public const string Create = Base + "/" + "fault";
+
+            public const string Get = Base + "/" + "faults/{faultId}";
+
+            public const string Update = Base + "/" + "faults/{reservationId}";
+
+            public const string Delete = Base + "/" + "faults/{reservationId}";
+
+            public const string GetFromUser = Base + "/" + "faults/from/identity";
+
+            public const string GetFromItem = Base + "/" + "faults/from/item";
+
+        }
     }
 }
