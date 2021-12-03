@@ -18,5 +18,7 @@ namespace LabManAPI.Models
 
         public DateTime reportTIme { get; set; }
 
+        public bool IsDeleted { get; set; }
+
     }
 }

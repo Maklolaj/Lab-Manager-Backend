@@ -12,6 +12,8 @@ namespace LabManAPI.Services
     {
         Task<List<Fault>> GetFaultsAsync();
 
+        Task<Fault> GetFaultByIdAsync(int faultId);
+
         Task<bool> CreateFaultAsync(Fault fault);
 
         Task<bool> DeleteReservationAsync(int faultId);
