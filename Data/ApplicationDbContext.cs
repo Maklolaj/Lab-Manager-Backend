@@ -18,5 +18,7 @@ namespace LabManAPI.Data
 
         public DbSet<Reservation> Reservations { get; set; }
 
+        public DbSet<Fault> Faults { get; set; }
+
     }
 }
