@@ -49,7 +49,7 @@ namespace LabManAPI.Controllers
                 Item = await _itemService.GetItemByIdAsync(fault.ItemId),
                 User = currentUser,
                 Description = fault.Description,
-                reportTIme = DateTime.UtcNow,
+                ReportTIme = DateTime.UtcNow,
                 IsDeleted = false,
             };
 
