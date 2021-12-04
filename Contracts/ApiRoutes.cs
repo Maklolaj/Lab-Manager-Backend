@@ -50,9 +50,9 @@ namespace LabManAPI.Contracts
 
             public const string Get = Base + "/" + "faults/{faultId}";
 
-            public const string Update = Base + "/" + "faults/{reservationId}";
+            public const string Update = Base + "/" + "faults/{faultId}";
 
-            public const string Delete = Base + "/" + "faults/{reservationId}";
+            public const string Delete = Base + "/" + "faults/{faultId}";
 
             public const string GetFromUser = Base + "/" + "faults/from/identity";
 

@@ -32,7 +32,7 @@ namespace LabManAPI.Controllers
                 Name = itemRequest.Name,
                 Manufacturer = itemRequest.Manufacturer,
                 ProductionDate = itemRequest.ProductionDate,
-                Describiton = itemRequest.Describiton,
+                Description = itemRequest.Description,
                 IsDamaged = false,
                 IsDeleted = false,
             };
@@ -72,7 +72,7 @@ namespace LabManAPI.Controllers
             item.Name = request.Name;
             item.Manufacturer = request.Manufacturer;
             item.ProductionDate = request.ProductionDate;
-            item.Describiton = request.Describiton;
+            item.Description = request.Description;
 
             if (await _itemService.UpdateItemAsync(item))
                 return Ok(item);

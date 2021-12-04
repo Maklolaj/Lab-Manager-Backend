@@ -12,7 +12,7 @@ namespace LabManAPI.Models
         public string Name { get; set; }
         public string Manufacturer { get; set; }
         public DateTime ProductionDate { get; set; }
-        public string Describiton { get; set; }
+        public string Description { get; set; }
         public bool IsDamaged { get; set; }
         public bool IsDeleted { get; set; }
 
