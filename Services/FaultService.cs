@@ -36,7 +36,7 @@ namespace LabManAPI.Services
             return created > 0;
         }
 
-        public async Task<bool> DeleteReservationAsync(int faultId)
+        public async Task<bool> DeleteFaultAsync(int faultId)
         {
             var fault = await GetFaultByIdAsync(faultId);
             fault.IsDeleted = true;

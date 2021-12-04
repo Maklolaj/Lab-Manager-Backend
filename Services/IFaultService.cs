@@ -16,7 +16,7 @@ namespace LabManAPI.Services
 
         Task<bool> CreateFaultAsync(Fault fault);
 
-        Task<bool> DeleteReservationAsync(int faultId);
+        Task<bool> DeleteFaultAsync(int faultId);
 
 
     }
