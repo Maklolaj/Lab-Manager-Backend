@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LabManAPI.Models;
 using Microsoft.AspNetCore.Identity;
+using LabManAPI.Contracts.Responses;
 
 namespace LabManAPI.Services
 {
@@ -15,6 +16,8 @@ namespace LabManAPI.Services
         Task<AuthenticationResult> LoginAsync(string email, string password);
 
         Task<IdentityUser> GetIdentityUserFromJWT(string jwt);
+
+        Task<List<AllUsersResponse>> GetAllUsersAsync();
 
     }
 }

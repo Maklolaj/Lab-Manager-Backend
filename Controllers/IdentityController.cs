@@ -62,5 +62,11 @@ namespace LabManAPI.Controllers
                 Token = authResponse.Token,
             });
         }
+
+        [HttpGet(ApiRoutes.Identity.GetAll)]
+        public async Task<IActionResult> GetAll()
+        {
+            return Ok(await _identityService.GetAllUsersAsync());
+        }
     }
 }

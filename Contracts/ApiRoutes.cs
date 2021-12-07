@@ -23,6 +23,9 @@ namespace LabManAPI.Contracts
 
             public const string Register = Base + "/identity/register";
 
+            public const string GetAll = Base + "/identity/users";
+
+
         }
 
         public static class Reservation

@@ -52,8 +52,8 @@ namespace LabManAPI.Controllers
 
             var reservation = new Reservation
             {
-                StartDate = request.StartDate,
-                EndDate = request.EndDate,
+                StartDate = request.StartDate.AddHours(1), //parsing problem on clint side  
+                EndDate = request.EndDate.AddHours(1),  //parsing problem on clint side  
                 Item = item,
                 User = currentUser,
             };

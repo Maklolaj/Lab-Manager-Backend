@@ -2,6 +2,7 @@ using LabManAPI.Models;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
@@ -10,6 +11,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using JwtRegisteredClaimNames = System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames;
 using LabManAPI.Data;
+using LabManAPI.Contracts.Responses;
+using Microsoft.EntityFrameworkCore;
 
 namespace LabManAPI.Services
 {
@@ -133,6 +136,25 @@ namespace LabManAPI.Services
                 Succes = true,
                 Token = tokenHandler.WriteToken(token),
             };
+        }
+
+
+        public async Task<List<AllUsersResponse>> GetAllUsersAsync()
+        {
+            var allUsersResponse = new List<AllUsersResponse>();
+
+            IQueryable<IdentityUser> users = _userManager.Users;
+
+            await users.ForEachAsync((user) =>
+            {
+                allUsersResponse.Add(new AllUsersResponse
+                {
+                    userName = user.UserName,
+                    userEmail = user.Email
+                });
+            });
+            return allUsersResponse;
+
         }
 
 
