@@ -150,7 +150,8 @@ namespace LabManAPI.Services
                 allUsersResponse.Add(new AllUsersResponse
                 {
                     userName = user.UserName,
-                    userEmail = user.Email
+                    userEmail = user.Email,
+                    userPhoneNumber = user.PhoneNumber,
                 });
             });
             return allUsersResponse;

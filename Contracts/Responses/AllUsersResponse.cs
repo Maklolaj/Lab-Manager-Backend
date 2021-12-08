@@ -10,5 +10,7 @@ namespace LabManAPI.Contracts.Responses
         public string userName { get; set; }
 
         public string userEmail { get; set; }
+
+        public string userPhoneNumber { get; set; }
     }
 }
