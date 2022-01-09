@@ -36,7 +36,6 @@ namespace LabManAPI.Services
         {
 
             var user = await _userManager.FindByEmailAsync(email);
-            var id = await _userManager.GetUserIdAsync(user);
 
             if (user == null)
             {
@@ -45,6 +44,8 @@ namespace LabManAPI.Services
                     Errors = new[] { "User does not exist" }
                 };
             }
+
+            var id = await _userManager.GetUserIdAsync(user);
 
             var userHasValidPassword = await _userManager.CheckPasswordAsync(user, password);
 
@@ -114,6 +115,10 @@ namespace LabManAPI.Services
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = ascii.GetBytes(_jwtSettigns.Secret);
 
+            if (user.PhoneNumber == null)
+            {
+                user.PhoneNumber = "0";
+            }
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
