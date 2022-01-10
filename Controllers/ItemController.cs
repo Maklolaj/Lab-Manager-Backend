@@ -6,9 +6,12 @@ using LabManAPI.Services;
 using System;
 using LabManAPI.Contracts.Requests;
 using LabManAPI.Contracts.Responses;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace LabManAPI.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ItemController : Controller
     {
         private readonly IItemService _itemService;

@@ -9,9 +9,13 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using LabManAPI.Migrations;
 using System;
+using Microsoft.AspNetCore.Server.HttpSys;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LabManAPI.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ReservationController : Controller
     {
         private readonly IReservationService _reservationService;
