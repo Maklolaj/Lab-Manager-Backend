@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LabManAPI.Extensions;
 
 namespace LabManAPI.Installers
 {
@@ -29,6 +30,8 @@ namespace LabManAPI.Installers
             services.AddScoped<IReservationService, ReservationService>();
 
             services.AddScoped<IFaultService, FaultService>();
+
+            services.AddScoped<IGeneralExtensions, GeneralExtensions>();
         }
     }
 }

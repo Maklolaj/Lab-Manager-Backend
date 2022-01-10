@@ -7,9 +7,7 @@ using LabManAPI.Contracts.Requests;
 using LabManAPI.Contracts.Responses;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
-using LabManAPI.Migrations;
 using System;
-using Microsoft.AspNetCore.Server.HttpSys;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 
@@ -81,6 +79,7 @@ namespace LabManAPI.Controllers
         [HttpDelete(ApiRoutes.Reservation.Delete)]
         public async Task<IActionResult> Delete([FromRoute] int reservationId)
         {
+
             var deleted = await _reservationService.DeleteReservationAsync(reservationId);
 
             if (deleted)
