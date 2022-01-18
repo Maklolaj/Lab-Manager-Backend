@@ -7,7 +7,7 @@ namespace LabManAPI.Validators
     {
         public CreateReservationValidator()
         {
-            //RuleFor( x => x.EndDate - x.StartDate ).Custom()
+            RuleFor(x => x.EndDate - x.StartDate).Must(u => u == new System.TimeSpan(2, 0, 0));
         }
 
     }

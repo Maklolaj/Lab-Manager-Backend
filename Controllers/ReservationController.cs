@@ -37,6 +37,11 @@ namespace LabManAPI.Controllers
         [HttpPost(ApiRoutes.Reservation.Create)]
         public async Task<IActionResult> Create([FromBody] CreateReservationRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, "Dates are invalid"); //test 
+            }
+
             var item = await _itemService.GetItemByIdAsync(request.ItemId);
             if (item == null)
             {

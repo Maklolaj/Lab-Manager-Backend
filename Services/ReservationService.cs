@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using LabManAPI.Contracts.Responses;
 using System.Linq;
-using LabManAPI.Migrations;
 using System;
 
 namespace LabManAPI.Services
