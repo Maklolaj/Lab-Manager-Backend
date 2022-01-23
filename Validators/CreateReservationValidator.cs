@@ -1,9 +1,10 @@
 using FluentValidation;
 using LabManAPI.Models;
+using LabManAPI.Contracts.Requests;
 
 namespace LabManAPI.Validators
 {
-    public class CreateReservationValidator : AbstractValidator<Reservation>
+    public class CreateReservationValidator : AbstractValidator<CreateReservationRequest>
     {
         public CreateReservationValidator()
         {
