@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using LabManAPI.Models;
 using Microsoft.AspNetCore.Identity;
 using LabManAPI.Contracts.Responses;
+using LabManAPI.Contracts.Requests;
 
 namespace LabManAPI.Services
 {
@@ -14,6 +15,8 @@ namespace LabManAPI.Services
         Task<AuthenticationResult> RegisterAsync(string email, string password);
 
         Task<AuthenticationResult> LoginAsync(string email, string password);
+
+        Task<UpdateUserResponse> UpdateUserAsync(UserUpdateProfileInfo request, IdentityUser user);
 
         Task<IdentityUser> GetIdentityUserFromJWT(string jwt);
 

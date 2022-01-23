@@ -13,6 +13,7 @@ using JwtRegisteredClaimNames = System.IdentityModel.Tokens.Jwt.JwtRegisteredCla
 using LabManAPI.Data;
 using LabManAPI.Contracts.Responses;
 using Microsoft.EntityFrameworkCore;
+using LabManAPI.Contracts.Requests;
 
 namespace LabManAPI.Services
 {
@@ -92,6 +93,43 @@ namespace LabManAPI.Services
 
             return GenerateAuthenticationResultForUserAsync(newUser);
 
+        }
+
+        public async Task<UpdateUserResponse> UpdateUserAsync(UserUpdateProfileInfo request, IdentityUser user)
+        {
+            List<string> messages = new List<string>();
+            List<string> errors = new List<string>();
+
+            if (!request.Email.Equals(user.Email))
+            {
+                if (await _userManager.FindByEmailAsync(request.Email) == null)
+                {
+                    var token = await _userManager.GenerateChangeEmailTokenAsync(user, request.Email);
+                    await _userManager.ChangeEmailAsync(user, request.Email, token);
+                    messages.Add("Email has changed");
+                }
+                else
+                {
+                    errors.Add("User with given email already exists");
+                }
+            }
+
+            if (request.Password.Equals(request.RepeatedPassword))
+            {
+                await _userManager.RemovePasswordAsync(user);
+                await _userManager.AddPasswordAsync(user, request.Password);
+                messages.Add("Password has changed");
+            }
+            else
+            {
+                errors.Add("Passwords are not the same");
+            }
+
+            return new UpdateUserResponse
+            {
+                Messages = messages,
+                Errors = errors,
+            };
         }
 
         public async Task<IdentityUser> GetIdentityUserFromJWT(string accessToken)
