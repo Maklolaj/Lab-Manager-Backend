@@ -5,7 +5,10 @@ using LabManAPI.Services;
 using LabManAPI.Contracts;
 using LabManAPI.Contracts.Requests;
 using LabManAPI.Contracts.Responses;
-
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace LabManAPI.Controllers
 {
@@ -43,6 +46,29 @@ namespace LabManAPI.Controllers
             {
                 Token = authResponse.Token,
             });
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPut(ApiRoutes.Identity.UpdateUser)]
+        public async Task<IActionResult> Update([FromBody] UserUpdateProfileInfo request)
+        {
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+
+            var currentUser = await _identityService.GetIdentityUserFromJWT(accessToken);
+
+            if (currentUser == null)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "User does not exist");
+            }
+
+            var userUpdated = await _identityService.UpdateUserAsync(request, currentUser);
+
+            if (userUpdated.Errors != null && userUpdated.Errors.Any())
+            {
+                return BadRequest(userUpdated.Errors);
+            }
+
+            return Ok(userUpdated.Messages);
         }
 
 
