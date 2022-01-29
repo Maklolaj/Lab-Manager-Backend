@@ -61,6 +61,11 @@ namespace LabManAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "User does not exist");
             }
 
+            if (!ModelState.IsValid)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Invalid request");
+            }
+
             var userUpdated = await _identityService.UpdateUserAsync(request, currentUser);
 
             if (userUpdated.Errors != null && userUpdated.Errors.Any())
