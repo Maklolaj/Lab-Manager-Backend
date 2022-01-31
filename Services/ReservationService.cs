@@ -51,9 +51,15 @@ namespace LabManAPI.Services
 
         public async Task<bool> CreateReservationAsync(Reservation reservation)
         {
-            await _dataContext.Reservations.AddAsync(reservation);
-            var created = await _dataContext.SaveChangesAsync();
-            return created > 0;
+            var exisitngReservation = await _dataContext.Reservations.Where(x => x.Item.Id == reservation.Item.Id && x.StartDate == reservation.StartDate).ToListAsync();
+            if (!exisitngReservation.Any())
+            {
+                await _dataContext.Reservations.AddAsync(reservation);
+                var created = await _dataContext.SaveChangesAsync();
+                return created > 0;
+            }
+            return false;
+
         }
 
         public async Task<List<ReservationsFromDateResponse>> GetReservationsWithCorrespondingDate(DateTime startRange, DateTime endRange, int itemId)

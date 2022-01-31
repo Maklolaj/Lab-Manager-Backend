@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace LabManAPI.Controllers
 {
@@ -65,19 +66,22 @@ namespace LabManAPI.Controllers
                 User = currentUser,
             };
 
-            await _reservationService.CreateReservationAsync(reservation);
-
-            var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
-            var locationUrl = baseUrl + "/" + ApiRoutes.Reservation.Get.Replace("{reservationId}", reservation.Id.ToString());
-
-            var response = new ReservationResponse
+            if (await _reservationService.CreateReservationAsync(reservation))
             {
-                Id = reservation.Id,
-                StartDate = reservation.StartDate,
-                EndDate = reservation.EndDate,
-            };
+                var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
+                var locationUrl = baseUrl + "/" + ApiRoutes.Reservation.Get.Replace("{reservationId}", reservation.Id.ToString());
 
-            return Created(locationUrl, response);
+                var response = new ReservationResponse
+                {
+                    Id = reservation.Id,
+                    StartDate = reservation.StartDate,
+                    EndDate = reservation.EndDate,
+                };
+
+                return Created(locationUrl, response);
+            }
+            return StatusCode(StatusCodes.Status500InternalServerError, "Reservation already exists");
+
         }
 
 
