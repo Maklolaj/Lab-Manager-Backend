@@ -11,6 +11,7 @@ using System;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
+using LabManAPI.Extensions;
 
 namespace LabManAPI.Controllers
 {
@@ -22,16 +23,28 @@ namespace LabManAPI.Controllers
 
         private readonly IIdentityService _identityService;
 
+        private readonly ILogger<ReservationController> _logger;
+
+        private readonly ILoggerAdapter<ReservationController> _loggerApater;
+
+        private readonly ILoggerFactory _logerFactory = LoggerFactory.Create(builder =>
+        {
+            builder.AddConsole().SetMinimumLevel(LogLevel.Information);
+        });
+
         public ReservationController(IReservationService reservationService, IItemService itemService, IIdentityService identityService)
         {
             _reservationService = reservationService;
             _itemService = itemService;
             _identityService = identityService;
+            _logger = new Logger<ReservationController>(_logerFactory);
+            _loggerApater = new LoggerAdapter<ReservationController>(_logger);
         }
 
         [HttpGet(ApiRoutes.Reservation.GetAll)]
         public async Task<IActionResult> GetAll()
         {
+            _loggerApater.LogInformation("GET ALL RESERVATIONS");
             return Ok(await _reservationService.GetReservationsAsync());
         }
 
