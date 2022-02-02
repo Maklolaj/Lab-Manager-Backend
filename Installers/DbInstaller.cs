@@ -32,6 +32,8 @@ namespace LabManAPI.Installers
             services.AddScoped<IFaultService, FaultService>();
 
             services.AddScoped<IGeneralExtensions, GeneralExtensions>();
+
+            services.AddScoped<IEmailSender, EmailSender>();
         }
     }
 }

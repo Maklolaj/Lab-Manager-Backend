@@ -23,6 +23,10 @@ namespace LabManAPI.Installers
             configuration.Bind(nameof(jwtSettings), jwtSettings);
             services.AddSingleton(jwtSettings);
 
+            var EmailConfiguration = new EmailConfiguration();
+            configuration.Bind(nameof(EmailConfiguration), EmailConfiguration);
+            services.AddSingleton(EmailConfiguration);
+
             services.AddScoped<IIdentityService, IdentityService>();
 
             var tokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
