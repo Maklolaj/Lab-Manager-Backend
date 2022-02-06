@@ -16,7 +16,11 @@ namespace LabManAPI.Services
 
         Task<AuthenticationResult> LoginAsync(string email, string password);
 
-        Task<UpdateUserResponse> UpdateUserAsync(UserUpdateProfileInfo request, IdentityUser user);
+        Task<UpdateUserResponse> ChangePasswordAsync(UserChangePasswordInfo request, IdentityUser user);
+
+        Task<UpdateUserResponse> ChangeEmailRequestAsync(UserChangeEmailInfo request, IdentityUser user);
+
+        Task<UpdateUserResponse> ConfirmChangeEmailRequestAsync(UserChangeEmailInfo request, IdentityUser user);
 
         Task<IdentityUser> GetIdentityUserFromJWT(string jwt);
 

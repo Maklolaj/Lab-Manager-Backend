@@ -94,42 +94,96 @@ namespace LabManAPI.Services
             return GenerateAuthenticationResultForUserAsync(newUser);
 
         }
-
-        public async Task<UpdateUserResponse> UpdateUserAsync(UserUpdateProfileInfo request, IdentityUser user)
+        public async Task<UpdateUserResponse> ChangePasswordAsync(UserChangePasswordInfo request, IdentityUser user)
         {
+            var passwordVerificationResult = _userManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, request.CurrentPassword);
+
             List<string> messages = new List<string>();
             List<string> errors = new List<string>();
 
-            if (!request.Email.Equals(user.Email))
+            if (passwordVerificationResult != PasswordVerificationResult.Success)
             {
-                if (await _userManager.FindByEmailAsync(request.Email) == null)
+                errors.Add("Current password does not match");
+
+                return new UpdateUserResponse
                 {
-                    var token = await _userManager.GenerateChangeEmailTokenAsync(user, request.Email);
-                    await _userManager.ChangeEmailAsync(user, request.Email, token);
-                    messages.Add("Email has changed");
-                }
-                else
-                {
-                    errors.Add("User with given email already exists");
-                }
+                    Errors = errors,
+                };
             }
+
 
             if (request.Password.Equals(request.RepeatedPassword))
             {
                 await _userManager.RemovePasswordAsync(user);
                 await _userManager.AddPasswordAsync(user, request.Password);
                 messages.Add("Password has changed");
+
+                return new UpdateUserResponse
+                {
+                    Messages = messages,
+                };
             }
             else
             {
-                errors.Add("Passwords are not the same");
+                errors.Add("Passwords do not match");
+                return new UpdateUserResponse
+                {
+                    Errors = errors,
+                };
+            }
+        }
+
+        public async Task<UpdateUserResponse> ChangeEmailRequestAsync(UserChangeEmailInfo request, IdentityUser user)
+        {
+            List<string> messages = new List<string>();
+            List<string> errors = new List<string>();
+
+
+            if (await _userManager.FindByEmailAsync(request.Email) == null)
+            {
+                var token = await _userManager.GenerateChangeEmailTokenAsync(user, request.Email);
+
+
+                messages.Add("Confirm given email by providing following token");
+                messages.Add(token);
+                return new UpdateUserResponse
+                {
+                    Messages = messages,
+                };
+            }
+            else
+            {
+                errors.Add("User with given email already exists");
+                return new UpdateUserResponse
+                {
+                    Errors = errors,
+                };
             }
 
-            return new UpdateUserResponse
+        }
+
+        public async Task<UpdateUserResponse> ConfirmChangeEmailRequestAsync(UserChangeEmailInfo request, IdentityUser user)
+        {
+            List<string> messages = new List<string>();
+            List<string> errors = new List<string>();
+            var result = await _userManager.ChangeEmailAsync(user, request.Email, request.Code);
+
+            if (result.Succeeded)
             {
-                Messages = messages,
-                Errors = errors,
-            };
+                messages.Add("Email has been changed successfully");
+                return new UpdateUserResponse
+                {
+                    Messages = messages,
+                };
+            }
+            else
+            {
+                errors.Add("Wrong token");
+                return new UpdateUserResponse
+                {
+                    Errors = errors,
+                };
+            }
         }
 
         public async Task<IdentityUser> GetIdentityUserFromJWT(string accessToken)
