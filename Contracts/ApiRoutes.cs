@@ -25,7 +25,11 @@ namespace LabManAPI.Contracts
 
             public const string GetAll = Base + "/identity/users";
 
-            public const string UpdateUser = Base + "/identity/user";
+            public const string ChangePassword = Base + "/identity/user/password";
+
+            public const string ChangeEmail = Base + "/identity/user/email";
+
+            public const string ConfirmChangeEmail = Base + "/identity/user/email/confirm";
         }
 
         public static class Reservation
