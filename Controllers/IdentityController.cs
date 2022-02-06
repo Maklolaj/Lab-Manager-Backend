@@ -49,24 +49,16 @@ namespace LabManAPI.Controllers
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPut(ApiRoutes.Identity.UpdateUser)]
-        public async Task<IActionResult> Update([FromBody] UserUpdateProfileInfo request)
+        [HttpPut(ApiRoutes.Identity.ChangePassword)]
+        public async Task<IActionResult> ChangeUserPassword([FromBody] UserChangePasswordInfo request)
         {
-            var accessToken = await HttpContext.GetTokenAsync("access_token");
-
-            var currentUser = await _identityService.GetIdentityUserFromJWT(accessToken);
-
-            if (currentUser == null)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "User does not exist");
-            }
-
-            if (!ModelState.IsValid)
+            if (!InitialValidation().Result)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Invalid request");
             }
 
-            var userUpdated = await _identityService.UpdateUserAsync(request, currentUser);
+            var currentUser = await _identityService.GetIdentityUserFromJWT(await HttpContext.GetTokenAsync("access_token"));
+            var userUpdated = await _identityService.ChangePasswordAsync(request, currentUser);
 
             if (userUpdated.Errors != null && userUpdated.Errors.Any())
             {
@@ -75,6 +67,57 @@ namespace LabManAPI.Controllers
 
             return Ok(userUpdated.Messages);
         }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPut(ApiRoutes.Identity.ChangeEmail)]
+        public async Task<IActionResult> ChangeUserEmail([FromBody] UserChangeEmailInfo request)
+        {
+            if (!InitialValidation().Result)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Invalid request");
+            }
+
+            var currentUser = await _identityService.GetIdentityUserFromJWT(await HttpContext.GetTokenAsync("access_token"));
+            var userUpdated = await _identityService.ChangeEmailRequestAsync(request, currentUser);
+
+            if (userUpdated.Errors != null && userUpdated.Errors.Any())
+            {
+                return BadRequest(userUpdated.Errors);
+            }
+
+            return Ok(userUpdated.Messages);
+
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPut(ApiRoutes.Identity.ConfirmChangeEmail)]
+        public async Task<IActionResult> ConfirmChangeUserEmail([FromBody] UserChangeEmailInfo request)
+        {
+            if (!InitialValidation().Result)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Invalid request");
+            }
+
+            var currentUser = await _identityService.GetIdentityUserFromJWT(await HttpContext.GetTokenAsync("access_token"));
+
+            var userUpdated = await _identityService.ConfirmChangeEmailRequestAsync(request, currentUser);
+
+            if (userUpdated.Errors != null && userUpdated.Errors.Any())
+            {
+                return BadRequest(userUpdated.Errors);
+            }
+
+            return Ok(userUpdated.Messages);
+
+        }
+
+        public async Task<bool> InitialValidation()
+        {
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            var currentUser = await _identityService.GetIdentityUserFromJWT(accessToken);
+            return currentUser != null && ModelState.IsValid;
+        }
+
 
 
         [HttpPost(ApiRoutes.Identity.Login)]
