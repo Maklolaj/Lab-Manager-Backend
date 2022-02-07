@@ -23,14 +23,16 @@ namespace LabManAPI.Services
         private readonly JwtSettings _jwtSettigns;
         private readonly TokenValidationParameters _tokenValidationParametrs;
         private readonly ApplicationDbContext _dataContext;
+        private readonly IEmailSender _emailSender;
 
         public IdentityService(UserManager<IdentityUser> userManager, JwtSettings jwtSettigns
-            , TokenValidationParameters tokenValidationParameters, ApplicationDbContext dataContext)
+            , TokenValidationParameters tokenValidationParameters, ApplicationDbContext dataContext, IEmailSender emailSender)
         {
             _userManager = userManager;
             _jwtSettigns = jwtSettigns;
             _tokenValidationParametrs = tokenValidationParameters;
             _dataContext = dataContext;
+            _emailSender = emailSender;
         }
 
         public async Task<AuthenticationResult> LoginAsync(string email, string password)
@@ -146,6 +148,10 @@ namespace LabManAPI.Services
 
                 messages.Add("Confirm given email by providing following token");
                 messages.Add(token);
+
+                var message = new Message(new string[] { user.Email }, "New email verification code:", token);
+                _emailSender.SendEmail(message);
+
                 return new UpdateUserResponse
                 {
                     Messages = messages,

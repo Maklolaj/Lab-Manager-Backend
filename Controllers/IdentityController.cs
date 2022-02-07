@@ -85,7 +85,7 @@ namespace LabManAPI.Controllers
                 return BadRequest(userUpdated.Errors);
             }
 
-            return Ok(userUpdated.Messages);
+            return Ok(userUpdated.Messages); //TODO: Send token confirmation via email.
 
         }
 

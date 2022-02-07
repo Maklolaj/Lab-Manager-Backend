@@ -23,8 +23,6 @@ namespace LabManAPI.Controllers
 
         private readonly IIdentityService _identityService;
 
-        private readonly IEmailSender _emailSender;
-
         private readonly ILogger<ReservationController> _logger;
 
         private readonly ILoggerAdapter<ReservationController> _loggerApater;
@@ -34,12 +32,11 @@ namespace LabManAPI.Controllers
             builder.AddConsole().SetMinimumLevel(LogLevel.Information);
         });
 
-        public ReservationController(IReservationService reservationService, IItemService itemService, IIdentityService identityService, IEmailSender emailSender)
+        public ReservationController(IReservationService reservationService, IItemService itemService, IIdentityService identityService)
         {
             _reservationService = reservationService;
             _itemService = itemService;
             _identityService = identityService;
-            _emailSender = emailSender;
             _logger = new Logger<ReservationController>(_logerFactory);
             _loggerApater = new LoggerAdapter<ReservationController>(_logger);
         }
@@ -49,8 +46,6 @@ namespace LabManAPI.Controllers
         {
             _loggerApater.LogInformation("GET ALL RESERVATIONS");
 
-            var message = new Message(new string[] { "zelek.inpg@gmail.com" }, "Test email", "This is the content from our email.");
-            _emailSender.SendEmail(message);
             return Ok(await _reservationService.GetReservationsAsync());
         }
 
