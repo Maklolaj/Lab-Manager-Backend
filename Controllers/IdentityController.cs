@@ -49,7 +49,7 @@ namespace LabManAPI.Controllers
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPut(ApiRoutes.Identity.ChangePassword)]
+        [HttpPost(ApiRoutes.Identity.ChangePassword)]
         public async Task<IActionResult> ChangeUserPassword([FromBody] UserChangePasswordInfo request)
         {
             if (!InitialValidation().Result)
@@ -69,7 +69,7 @@ namespace LabManAPI.Controllers
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPut(ApiRoutes.Identity.ChangeEmail)]
+        [HttpPost(ApiRoutes.Identity.ChangeEmail)]
         public async Task<IActionResult> ChangeUserEmail([FromBody] UserChangeEmailInfo request)
         {
             if (!InitialValidation().Result)
@@ -90,7 +90,7 @@ namespace LabManAPI.Controllers
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPut(ApiRoutes.Identity.ConfirmChangeEmail)]
+        [HttpPost(ApiRoutes.Identity.ConfirmChangeEmail)]
         public async Task<IActionResult> ConfirmChangeUserEmail([FromBody] UserChangeEmailInfo request)
         {
             if (!InitialValidation().Result)
